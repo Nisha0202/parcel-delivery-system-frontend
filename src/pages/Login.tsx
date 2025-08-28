@@ -34,7 +34,7 @@ export default function Login() {
         className="w-full max-w-md p-8 rounded-lg shadow-xs border-2 border-gray-200 space-y-6 bg-transparent"
       >
         <h2 className="lg:text-2xl text-xl font-semibold text-gray-900 text-center">
-          FastParcel - Login
+          FastParcel
         </h2>
 
         <div className="form-control w-full">
@@ -62,8 +62,8 @@ export default function Login() {
         <button
           type="submit"
           disabled={isLoading}
-          className={`btn w-full border-0 shadow-md text-gray-600 font-semibold ${
-            isLoading ? "bg-gray-600 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+          className={`btn w-full border-0 shadow-md  font-semibold ${
+            isLoading ? "bg-gray-600 cursor-not-allowed text-gray-600" : "bg-blue-500 hover:bg-blue-600 text-white"
           }`}
         >
           {isLoading ? "Logging in..." : "Login"}

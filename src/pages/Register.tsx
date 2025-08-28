@@ -86,8 +86,8 @@ export default function Register() {
 
         <button
           type="submit"
-          className={`btn w-full border-0 shadow-md text-gray-600 font-semibold ${
-            isLoading ? "bg-gray-600 cursor-not-allowed" : "bg-green-500"
+          className={`btn w-full border-0 shadow-md font-semibold ${
+            isLoading ? "bg-gray-600 cursor-not-allowed text-gray-600 " : "bg-green-500 text-white"
           }`}
           disabled={isLoading}
         >
