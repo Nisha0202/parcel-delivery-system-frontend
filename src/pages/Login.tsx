@@ -15,7 +15,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const res: any = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ token: res.token, role: res.role }));
+      dispatch(setCredentials({ token: res.token, role: res.data.role }));
       nav("/dashboard");
     } catch {
       alert("Login failed");
@@ -62,7 +62,7 @@ export default function Login() {
         </button>
            <p className="text-gray-800 text-center">
           Not registered?{" "}
-          <Link to="/register" className="text-blue-500 font-semibold hover:underline">
+          <Link to="/register" className="text-green-500 font-semibold hover:underline">
             Register
           </Link>
         </p>

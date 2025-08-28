@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useRegisterMutation } from "../api";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 export default function Register() {
-  // Initial state only
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -11,20 +11,19 @@ export default function Register() {
     role: "sender",
   });
 
-  const [register] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
   const nav = useNavigate();
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Call register inside submit, not inside useState
       const res: any = await register(form).unwrap();
       if (res.success) {
-        alert("Registered successfully!");
+        toast.success("Registered successfully!");
         nav("/login");
       }
     } catch (err: any) {
-      alert(err?.data?.message || "Registration failed");
+      toast.error(err?.data?.message || "Registration failed");
     }
   };
 
@@ -87,9 +86,12 @@ export default function Register() {
 
         <button
           type="submit"
-          className="btn btn-primary w-full bg-green-400 border-0 shadow-md text-white font-semibold"
+          className={`btn w-full border-0 shadow-md text-white font-semibold ${
+            isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-green-500"
+          }`}
+          disabled={isLoading}
         >
-          Register
+          {isLoading ? "Registering..." : "Register"}
         </button>
 
         <p className="text-gray-900 text-center">

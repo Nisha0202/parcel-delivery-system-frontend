@@ -11,7 +11,6 @@ export default function Dashboard() {
   const { role: userRole } = useSelector((s: RootState) => s.auth);
   console.log("Redux auth:", useSelector((s: RootState) => s.auth));
 
-  // Call all hooks at the top level
   const meParcelsQuery = useMeParcelsQuery(undefined, { skip: userRole !== "sender" });
   const receivedParcelsQuery = useReceivedParcelsQuery(undefined, { skip: userRole !== "receiver" });
   const allParcelsQuery = useAllParcelsQuery(undefined, { skip: userRole !== "admin" });
