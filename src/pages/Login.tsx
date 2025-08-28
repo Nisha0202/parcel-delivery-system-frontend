@@ -3,11 +3,12 @@ import { useLoginMutation } from "../api";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../features/authSlice";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const nav = useNavigate();
   const dispatch = useDispatch();
 
@@ -15,23 +16,28 @@ export default function Login() {
     e.preventDefault();
     try {
       const res: any = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ token: res.token, role: res.data.role }));
+      dispatch(setCredentials({ token: res.token, role: res.data.role.toLowerCase() }));
+      toast.success("Logged in successfully!");
       nav("/dashboard");
-    } catch {
-      alert("Login failed");
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Login failed");
     }
   };
 
   return (
-    <div className="flex justify-center items-center max-w-3xl m-auto"  style={{ minHeight: "calc(100vh - 100px)" }}>
+    <div
+      className="flex justify-center items-center max-w-3xl m-auto"
+      style={{ minHeight: "calc(100vh - 100px)" }}
+    >
       <form
         onSubmit={submit}
-        className="w-full max-w-md p-8 bg-tranparent rounded-lg shadow-xs border-2 border-gray-200 space-y-6"
+        className="w-full max-w-md p-8 rounded-lg shadow-md border-2 border-gray-200 space-y-6 bg-white"
       >
+        <h2 className="lg:text-2xl text-xl font-semibold text-gray-900 text-center">
+          FastParcel - Login
+        </h2>
 
-    <h2 className="lg:text-2xl text-xl  font-semibold text-gray-800 text-center">FastParcel</h2>
         <div className="form-control w-full">
-
           <input
             type="email"
             placeholder="Enter your email"
@@ -43,7 +49,6 @@ export default function Login() {
         </div>
 
         <div className="form-control w-full">
-
           <input
             type="password"
             placeholder="Enter your password"
@@ -56,17 +61,20 @@ export default function Login() {
 
         <button
           type="submit"
-          className="btn btn-primary bg-blue-400 border-0 shadow-2xs w-full text-white font-semibold"
+          disabled={isLoading}
+          className={`btn w-full border-0 shadow-md text-white font-semibold ${
+            isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+          }`}
         >
-          Login
+          {isLoading ? "Logging in..." : "Login"}
         </button>
-           <p className="text-gray-800 text-center">
+
+        <p className="text-gray-900 text-center">
           Not registered?{" "}
           <Link to="/register" className="text-green-500 font-semibold hover:underline">
             Register
           </Link>
         </p>
-        
       </form>
     </div>
   );
