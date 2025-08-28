@@ -37,7 +37,7 @@ export default function Register() {
         className="w-full max-w-md p-8 rounded-lg shadow-xs border-2 border-gray-200 space-y-6"
       >
         <h2 className="lg:text-2xl text-xl font-semibold text-gray-900 text-center">
-          FastParcel - Register
+          FastParcel
         </h2>
 
         <div className="form-control w-full">
@@ -86,8 +86,8 @@ export default function Register() {
 
         <button
           type="submit"
-          className={`btn w-full border-0 shadow-md text-white font-semibold ${
-            isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-green-500"
+          className={`btn w-full border-0 shadow-md text-gray-600 font-semibold ${
+            isLoading ? "bg-gray-600 cursor-not-allowed" : "bg-green-500"
           }`}
           disabled={isLoading}
         >
