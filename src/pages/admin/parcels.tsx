@@ -16,8 +16,6 @@ export default function AdminParcels() {
 
   const parcels = data?.data ?? [];
 
-
-
   if (isLoading)
     return (
       <p className="text-center mt-6 py-6 text-gray-500 animate-pulse">
@@ -51,7 +49,7 @@ export default function AdminParcels() {
           <table className="w-full text-sm md:text-base">
             <thead className="bg-gray-100">
               <tr>
-                <th className="p-3 text-left">ID</th>
+                <th className="hidden md:table-cell p-3 text-left">ID</th>
                 <th className="p-3 text-left">Tracking ID</th>
                 <th className="p-3 text-left">Status</th>
                 <th className="p-3 text-left">Actions</th>
@@ -63,20 +61,21 @@ export default function AdminParcels() {
                   key={parcel._id}
                   className="border-b hover:bg-gray-50 transition"
                 >
-                  <td className="p-3 font-mono text-xs md:text-sm text-gray-700">
+                  <td className="hidden md:table-cell p-3 font-mono text-xs md:text-sm text-gray-700">
                     {parcel._id}
                   </td>
                   <td className="p-3">{parcel?.trackingId}</td>
                   <td className="p-3">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs font-semibold ${parcel.status === "Delivered"
+                      className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                        parcel.status === "Delivered"
                           ? "bg-green-100 text-green-700"
                           : parcel.status === "In Transit"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : parcel.status === "Blocked"
-                              ? "bg-red-100 text-red-700"
-                              : "bg-gray-100 text-gray-700"
-                        }`}
+                          ? "bg-yellow-100 text-yellow-700"
+                          : parcel.status === "Blocked"
+                          ? "bg-red-100 text-red-700"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
                     >
                       {parcel.status}
                     </span>
@@ -96,26 +95,24 @@ export default function AdminParcels() {
                     {/* Update status dropdown */}
                     <div className="flex items-center gap-1 border rounded-md px-2">
                       <CheckCircle size={16} className="text-blue-600" />
-              
-<select
-  onChange={async (e) => {
-    if (!e.target.value) return;
-    try {
-      await updateStatus({ id: parcel._id, status: e.target.value }).unwrap();
-      toast.success("Status updated successfully!"); // <-- show success toast
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err?.data?.message || "Update failed");
-    }
-  }}
-  className="bg-transparent outline-none text-sm py-1"
->
-  <option value="">Update</option>
-  <option value="Approved">Approved</option>
-  <option value="Dispatched">Dispatched</option>
-  <option value="In Transit">In Transit</option>
-</select>
-
+                      <select
+                        onChange={async (e) => {
+                          if (!e.target.value) return;
+                          try {
+                            await updateStatus({ id: parcel._id, status: e.target.value }).unwrap();
+                            toast.success("Status updated successfully!");
+                          } catch (err: any) {
+                            console.error(err);
+                            toast.error(err?.data?.message || "Update failed");
+                          }
+                        }}
+                        className="bg-transparent outline-none text-sm py-1"
+                      >
+                        <option value="">Update</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Dispatched">Dispatched</option>
+                        <option value="In Transit">In Transit</option>
+                      </select>
                     </div>
                   </td>
                 </tr>
