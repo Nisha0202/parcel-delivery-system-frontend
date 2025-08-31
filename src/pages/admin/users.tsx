@@ -15,21 +15,21 @@ export default function AdminUsers() {
 
   return (
     <div className="p-6">
-  <div className="flex items-center gap-4 mb-6">
-  {/* ✅ Back Button */}
-  <button
-    onClick={() => navigate(-1)}
-    className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition"
-  >
-    <ArrowLeft size={20} />
-    <span className="text-sm font-medium">Back</span>
-  </button>
+      <div className="flex items-center gap-4 mb-6">
+        {/* ✅ Back Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition"
+        >
+          <ArrowLeft size={20} />
+          <span className="text-sm font-medium">Back</span>
+        </button>
 
-  <h2 className="text-xl font-bold flex items-center gap-2">
-    <UserCircle2 className="text-blue-600" size={28} />
-    Users Management
-  </h2>
-</div>
+        <h2 className="text-xl font-bold flex items-center gap-2">
+          <UserCircle2 className="text-blue-600" size={28} />
+          Users Management
+        </h2>
+      </div>
 
 
       {/* ✅ Desktop Table View */}
@@ -49,32 +49,39 @@ export default function AdminUsers() {
                   <Mail size={16} className="text-gray-500" />
                   {user.email}
                 </td>
-                <td className="px-4 py-3 text-sm font-medium">
-                  {user.blocked ? (
-                    <span className="flex items-center gap-1 text-red-600 font-semibold">
-                      <Lock size={16} /> Blocked
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1 text-green-600 font-semibold">
-                      <Unlock size={16} /> Active
-                    </span>
-                  )}
-                </td>
-                <td className="px-4 py-3">
+               <td className="px-4 py-3 text-sm font-medium">
+  {user.isBlocked ? (
+    <span className="flex items-center gap-1 text-red-600 font-semibold">
+      <Lock size={16} /> Blocked
+    </span>
+  ) : (
+    <span className="flex items-center gap-1 text-green-600 font-semibold">
+      <Unlock size={16} /> Active
+    </span>
+  )}
+</td>
+
+                <td className="py-3">
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={!user.blocked}
-                      onChange={async () => {
-                        if (user.blocked) {
-                          await unblockUser(user.id);
-                        } else {
-                          await blockUser(user.id);
-                        }
-                        refetch();
-                      }}
-                    />
+            <input
+  type="checkbox"
+  className="sr-only peer"
+  checked={!user.isBlocked}
+  onChange={async () => {
+    try {
+      if (user.isBlocked) {
+        await unblockUser(user._id).unwrap(); 
+      } else {
+        await blockUser(user._id).unwrap();
+      }
+      refetch();
+    } catch (err) {
+      console.error("Failed to toggle user block:", err);
+    }
+  }}
+/>
+
+
                     <div className="w-12 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:bg-green-500 transition-all"></div>
                     <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:translate-x-6 transform transition-all"></span>
                   </label>
