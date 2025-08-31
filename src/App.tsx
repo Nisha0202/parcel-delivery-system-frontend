@@ -13,8 +13,18 @@ import { AdminDashboard } from "./pages/admin/AdminDashboard.tsx";
 import AdminUsers from "./pages/admin/users.tsx";
 import AdminParcels from "./pages/admin/parcels.tsx";
 import AdminTrack from "./pages/admin/track.tsx";
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { loadStored } from './features/authSlice.ts';
 
 export default function App(){
+
+   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadStored()); 
+  }, [dispatch]);
+  
   return (
     <div className="min-h-screen">
       <Navbar/>

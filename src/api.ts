@@ -11,6 +11,7 @@ export const api = createApi({
       return headers;
     },
   }),
+  tagTypes: ["Parcels"], // <-- move it here
   endpoints: (builder) => ({
     // 🔑 Auth
     login: builder.mutation({
@@ -23,9 +24,13 @@ export const api = createApi({
     // 📦 Parcels
     meParcels: builder.query<any, void>({ query: () => "/parcels/me" }),
     receivedParcels: builder.query<any, void>({ query: () => "/parcels/received" }),
-    allParcels: builder.query<any, void>({ query: () => "/parcels" }),
+    allParcels: builder.query<any, void>({
+      query: () => "/parcels",
+      providesTags: ["Parcels"], // <-- auto-refetch when invalidated
+    }),
     createParcel: builder.mutation({
       query: (body) => ({ url: "/parcels", method: "POST", body }),
+      invalidatesTags: ["Parcels"],
     }),
     updateParcel: builder.mutation({
       query: ({ id, ...body }) => ({
@@ -33,12 +38,15 @@ export const api = createApi({
         method: "PATCH",
         body,
       }),
+      invalidatesTags: ["Parcels"],
     }),
     cancelParcel: builder.mutation({
       query: (id) => ({ url: `/parcels/${id}/cancel`, method: "PATCH" }),
+      invalidatesTags: ["Parcels"],
     }),
     confirmParcel: builder.mutation({
       query: (id) => ({ url: `/parcels/${id}/confirm`, method: "PATCH" }),
+      invalidatesTags: ["Parcels"],
     }),
 
     // 🛠 Admin: Block / Unblock Users
@@ -53,6 +61,7 @@ export const api = createApi({
     // 🛠 Admin: Manage Parcels
     blockParcel: builder.mutation<void, string>({
       query: (id) => ({ url: `/parcels/${id}/block`, method: "PATCH" }),
+      invalidatesTags: ["Parcels"],
     }),
 
     // 🔍 Tracking
@@ -71,11 +80,9 @@ export const api = createApi({
 });
 
 export const {
-  // Auth
   useLoginMutation,
   useRegisterMutation,
 
-  // Parcels
   useMeParcelsQuery,
   useReceivedParcelsQuery,
   useAllParcelsQuery,
@@ -84,15 +91,12 @@ export const {
   useCancelParcelMutation,
   useConfirmParcelMutation,
 
-  // Users
   useUsersQuery,
   useBlockUserMutation,
   useUnblockUserMutation,
 
-  // Parcels (Admin)
   useBlockParcelMutation,
 
-  // Tracking
   useTrackQuery,
   useParcelDetailsQuery,
   useParcelStatusLogQuery,
