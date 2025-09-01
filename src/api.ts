@@ -11,7 +11,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Parcels"], // <-- move it here
+  tagTypes: ["Parcels"], 
   endpoints: (builder) => ({
     // 🔑 Auth
     login: builder.mutation({
@@ -65,9 +65,10 @@ export const api = createApi({
     }),
 
     // 🔍 Tracking
-    track: builder.query({
-      query: (id) => `/track/${id}`,
-    }),
+   track: builder.query({
+  query: (trackingId) => `parcels/track/${trackingId}`,
+}),
+
 
     // 📝 Parcel Details + Logs
     parcelDetails: builder.query({
