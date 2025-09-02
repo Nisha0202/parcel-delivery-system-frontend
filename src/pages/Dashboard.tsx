@@ -1,9 +1,9 @@
 // pages/Dashboard.tsx
 import { useSelector } from "react-redux";
 import type { RootState } from "../store";
-import { SenderNavbar, ReceiverNavbar} from "./RolebasedNav";
+// import { SenderNavbar, ReceiverNavbar} from "./RolebasedNav";
 // Import dashboards
-import { SenderDashboard } from "../pages/SenderDashboard";
+import { SenderDashboard } from "../pages/sender/SenderDashboard";
 import { ReceiverDashboard } from "../pages/ReceiverDashboard";
 import { AdminDashboard } from "./admin/AdminDashboard";
 export default function Dashboard() {
@@ -12,8 +12,7 @@ export default function Dashboard() {
   return (
     <div className="">
 
-      {userRole === "sender" && <SenderNavbar />}
-      {userRole === "receiver" && <ReceiverNavbar />}
+
 
       {/* Render pages dynamically */}
       <div className="mt-6">

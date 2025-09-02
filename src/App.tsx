@@ -16,26 +16,45 @@ import AdminTrack from "./pages/admin/track.tsx";
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { loadStored } from './features/authSlice.ts';
+import PublicRoute from './components/PublicRoute.tsx';
+import CreateParcel from './pages/sender/CreateParcel.tsx';
+import MyParcels from './pages/sender/MyParcels.tsx';
+import { SenderDashboard } from "./pages/sender/SenderDashboard.tsx";
 
-export default function App(){
+export default function App() {
 
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadStored()); 
+    dispatch(loadStored());
   }, [dispatch]);
-  
+
   return (
     <div className="min-h-screen">
-      <Navbar/>
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Landing/>} />
+        <Route path="/" element={<Landing />} />
         {/* <Route path="/about" element={<About/>}/>
         <Route path="/contact" element={<Contact/>}/> */}
-        <Route path="/track" element={<ParcelTracking/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/register" element={<Register/>} />
+        <Route path="/track" element={<ParcelTracking />} />
 
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          }
+        />
         {/* Protected Dashboard */}
         <Route
           path="/dashboard"
@@ -79,6 +98,35 @@ export default function App(){
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/sender"
+          element={
+            <ProtectedRoute>
+              <SenderDashboard />
+            </ProtectedRoute>
+          }
+        />
+       <Route
+          path="/sender/create-parcel"
+          element={
+            <ProtectedRoute>
+              <CreateParcel />
+            </ProtectedRoute>
+          }
+        />
+               <Route
+          path="/sender/parcels"
+          element={
+            <ProtectedRoute>
+              <MyParcels />
+            </ProtectedRoute>
+          }
+        />
+
+
+
+
       </Routes>
     </div>
   )
