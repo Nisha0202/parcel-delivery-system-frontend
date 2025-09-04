@@ -1,25 +1,25 @@
 import './App.css'
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Landing from "./pages/Landing.tsx";
-// import About from "./pages/About.tsx";
-// import Contact from "./pages/Contact.tsx";
-import Login from "./pages/Login.tsx";
-import Register from "./pages/Register.tsx";
-import Dashboard from "./pages/Dashboard.tsx";
-import ParcelTracking from "./pages/ParcelTracking.tsx";
+import Landing from "./pages/Landing";
+// import About from "./pages/About";
+// import Contact from "./pages/Contact";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import ParcelTracking from "./pages/ParcelTracking";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { AdminDashboard } from "./pages/admin/AdminDashboard.tsx";
-import AdminUsers from "./pages/admin/users.tsx";
-import AdminParcels from "./pages/admin/parcels.tsx";
-import AdminTrack from "./pages/admin/track.tsx";
+import { AdminDashboard } from "./pages/admin/AdminDashboard";
+import AdminUsers from "./pages/admin/users";
+import AdminParcels from "./pages/admin/parcels";
+import AdminTrack from "./pages/admin/track";
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { loadStored } from './features/authSlice.ts';
 import PublicRoute from './components/PublicRoute.tsx';
-import CreateParcel from './pages/sender/CreateParcel.tsx';
+import CreateParcel from './pages/sender/CreateParcel';
 import MyParcels from './pages/sender/MyParcels.tsx';
-import { SenderDashboard } from "./pages/sender/SenderDashboard.tsx";
+import { SenderDashboard } from "./pages/sender/SenderDashboard";
 
 export default function App() {
 
