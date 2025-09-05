@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast"; // optional: for toast notifications
 export default function CreateParcel() {
   const navigate = useNavigate();
   const dateInputRef = useRef<HTMLInputElement>(null);
-
+const [loading, setLoading] = useState(false);
   const [createParcel] = useCreateParcelMutation(); // RTK mutation
   const [form, setForm] = useState({
     type: "",
@@ -27,6 +27,7 @@ export default function CreateParcel() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+      setLoading(true);
     try {
       const res: any = await createParcel(form).unwrap();
       // Show success toast
@@ -37,6 +38,7 @@ export default function CreateParcel() {
       setTimeout(() => navigate("/sender/parcels"), 4000);
     } catch (err: any) {
       toast.error(err?.data?.message || "Error creating parcel");
+        setLoading(false);
     }
   };
 
@@ -169,9 +171,11 @@ export default function CreateParcel() {
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-3 rounded-lg transition"
+            disabled={loading}
           >
-            Create Parcel
+            {loading ? "Creating..." : "Create Parcel"}
           </button>
+
         </div>
       </form>
     </div>
