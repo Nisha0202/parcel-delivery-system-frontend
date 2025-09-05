@@ -67,7 +67,7 @@ const handleCancel = async (id: string) => {
       </div>
     ) : (
       <div className="overflow-x-auto rounded-lg shadow">
-        <table className="w-full border-collapse bg-white text-sm sm:text-base">
+        <table className="w-full border-collapse bg-transparent text-sm sm:text-base">
           <thead>
             <tr className="bg-gray-100 text-left">
               <th className="p-2 sm:p-3 border-b">Tracking ID</th>
@@ -82,10 +82,10 @@ const handleCancel = async (id: string) => {
             {parcels.map((parcel: any) => (
               <tr
                 key={parcel._id}
-                className="hover:bg-gray-50 transition-colors"
+                className="hover:bg-gray-50 transition-colors text-left"
               >
                 <td className="p-2 sm:p-3 border-b">{parcel.trackingId}</td>
-                <td className="p-2 sm:p-3 border-b">{parcel.type}</td>
+                <td className="p-2 sm:p-3 border-b text-left">{parcel.type}</td>
                 <td className="p-2 sm:p-3 border-b">{parcel.weight} kg</td>
                 <td className="p-2 sm:p-3 border-b">
                   ৳{parcel.fee?.toLocaleString() || 0}

@@ -81,7 +81,7 @@ const [loading, setLoading] = useState(false);
             name="weight"
             type="number"
             step="0.01"
-            placeholder="e.g. 2.5"
+            placeholder="Per kg 80tk"
             className="border rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 outline-none"
             onChange={handleChange}
             required
