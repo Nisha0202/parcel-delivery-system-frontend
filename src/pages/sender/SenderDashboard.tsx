@@ -9,6 +9,7 @@ export function SenderDashboard() {
        <nav className="flex gap-4 p-4 bg-blue-100 rounded-md shadow-md">
       <Link to="/sender/parcels">📦 My Parcels</Link>
       <Link to="/sender/create-parcel">🔍 Create Parcel</Link>
+      <Link to="/admin/track">🔍 Track Parcel</Link>
     </nav>
 
     </div>

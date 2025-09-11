@@ -4,7 +4,7 @@ import type { RootState } from "../store";
 // import { SenderNavbar, ReceiverNavbar} from "./RolebasedNav";
 // Import dashboards
 import { SenderDashboard } from "../pages/sender/SenderDashboard";
-import { ReceiverDashboard } from "../pages/ReceiverDashboard";
+import { ReceiverDashboard } from "../pages/receiver/ReceiverDashboard";
 import { AdminDashboard } from "./admin/AdminDashboard";
 export default function Dashboard() {
   const { role: userRole } = useSelector((s: RootState) => s.auth);

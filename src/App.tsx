@@ -19,6 +19,7 @@ import { loadStored } from './features/authSlice.ts';
 import PublicRoute from './components/PublicRoute.tsx';
 import CreateParcel from './pages/sender/CreateParcel';
 import MyParcels from './pages/sender/MyParcels.tsx';
+import ReceivedParcels from './pages/receiver/MyParcels.tsx';
 import { SenderDashboard } from "./pages/sender/SenderDashboard";
 
 export default function App() {
@@ -123,7 +124,14 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
+         <Route
+          path="/receiver/my-parcels"
+          element={
+            <ProtectedRoute>
+              <ReceivedParcels />
+            </ProtectedRoute>
+          }
+        />
 
 
 
