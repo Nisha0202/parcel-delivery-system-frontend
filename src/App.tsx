@@ -2,8 +2,6 @@ import './App.css'
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
-// import About from "./pages/About";
-// import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -35,8 +33,6 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Landing />} />
-        {/* <Route path="/about" element={<About/>}/>
-        <Route path="/contact" element={<Contact/>}/> */}
         <Route path="/track" element={<ParcelTracking />} />
 
         <Route path="/register" element={<Register />} />

@@ -22,9 +22,6 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <div className="hidden md:flex space-x-6">
             <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
-            <Link to="/track">Track</Link>
             {token && <Link to="/dashboard">Dashboard</Link>}
           </div>
 
