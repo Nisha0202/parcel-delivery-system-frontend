@@ -38,7 +38,7 @@ export default function Contact() {
             <input
               type="text"
               placeholder="Your full name"
-              className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-200"
+              className="w-full p-3 border rounded-sm focus:ring-2 focus:ring-blue-500 outline-none bg-gray-200"
               required
             />
           </div>
@@ -50,7 +50,7 @@ export default function Contact() {
             <input
               type="email"
               placeholder="you@example.com"
-              className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-200"
+              className="w-full p-3 border rounded-sm focus:ring-2 focus:ring-blue-500 outline-none bg-gray-200"
               required
             />
           </div>
@@ -62,25 +62,30 @@ export default function Contact() {
             <textarea
               placeholder="Write your message here..."
               rows={4}
-              className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-200"
+              className="w-full p-3 border rounded-sm focus:ring-2 focus:ring-blue-500 outline-none bg-gray-200"
               required
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full flex items-center justify-center bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="animate-spin mr-2 h-5 w-5" />
-                Sending...
-              </>
-            ) : (
-              "Send Message"
-            )}
-          </button>
+ <button
+  type="submit"
+  disabled={loading}
+  className={`btn w-full border-0 shadow-md font-semibold flex items-center justify-center ${
+    loading
+      ? "bg-gray-600 cursor-not-allowed text-gray-600"
+      : "bg-blue-500 hover:bg-blue-600 text-white"
+  }`}
+>
+  {loading ? (
+    <>
+      <Loader2 className="animate-spin mr-2 h-5 w-5" />
+      Sending...
+    </>
+  ) : (
+    "Send Message"
+  )}
+</button>
+
         </form>
       )}
     </section>

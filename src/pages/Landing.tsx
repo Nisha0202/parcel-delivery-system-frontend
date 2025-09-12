@@ -18,7 +18,7 @@ export default function Home() {
       </p>
 
       {!token && (
-        <button className="btn btn-primary" onClick={() => navigate("/login")}>
+        <button className="btn btn-primary mb-4" onClick={() => navigate("/login")}>
           Get Started
         </button>
       )}
