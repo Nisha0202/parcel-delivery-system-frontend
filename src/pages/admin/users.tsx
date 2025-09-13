@@ -1,4 +1,4 @@
-// pages/admin/users.tsx
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   useUsersQuery,
@@ -13,8 +13,19 @@ export default function AdminUsers() {
   const [unblockUser] = useUnblockUserMutation();
   const navigate = useNavigate();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 5; // adjust as needed
+
   // Filter out admin users
-  const users = data?.data?.filter((u: any) => u.role !== "admin");
+  const users = data?.data?.filter((u: any) => u.role !== "admin") || [];
+
+  const totalPages = Math.ceil(users.length / usersPerPage);
+
+  // Paginated users
+  const paginatedUsers = users.slice(
+    (currentPage - 1) * usersPerPage,
+    currentPage * usersPerPage
+  );
 
   if (isLoading)
     return (
@@ -46,29 +57,18 @@ export default function AdminUsers() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-                ID
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-                Email
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-                Status
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-                Block / Unblock
-              </th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">ID</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Email</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Status</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Block / Unblock</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">
-            {users?.map((user: any) => (
+            {paginatedUsers.map((user: any) => (
               <tr key={user._id} className="hover:bg-gray-50 transition">
-                <td className="px-4 py-3 text-xs md:text-sm text-gray-700 font-mono">
-                  {user._id}
-                </td>
+                <td className="px-4 py-3 text-xs md:text-sm text-gray-700 font-mono">{user._id}</td>
                 <td className="px-4 py-3 text-sm text-gray-700 flex items-center gap-2">
-                  <Mail size={16} className="text-gray-500" />
-                  {user.email}
+                  <Mail size={16} className="text-gray-500" /> {user.email}
                 </td>
                 <td className="px-4 py-3 text-sm font-medium">
                   {user.isBlocked ? (
@@ -113,11 +113,8 @@ export default function AdminUsers() {
 
       {/* ✅ Mobile Card View */}
       <div className="space-y-4 md:hidden">
-        {users?.map((user: any) => (
-          <div
-            key={user._id}
-            className="p-4 border rounded-lg shadow-sm bg-white flex flex-col gap-3"
-          >
+        {paginatedUsers.map((user: any) => (
+          <div key={user._id} className="p-4 border rounded-lg shadow-sm bg-white flex flex-col gap-3">
             <div className="flex items-center gap-2 text-gray-700">
               <Mail size={16} className="text-gray-500" />
               <span className="text-sm font-medium">{user.email}</span>
@@ -161,6 +158,29 @@ export default function AdminUsers() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Pagination */}
+      <div className="fixed bottom-0 left-0 w-full flex justify-center mb-4 items-center gap-2 mt-6">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+        >
+          Previous
+        </button>
+
+        <span className="px-3 py-1">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
     </div>
   );
