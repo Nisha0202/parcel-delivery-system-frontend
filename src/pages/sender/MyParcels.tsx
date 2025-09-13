@@ -16,9 +16,9 @@ const handleCancel = async (id: string) => {
     refetch();
   } catch (err: any) {
     const errorMessage =
-      err?.data?.message || // backend message
-      err?.error ||         // RTK query network error message
-      "Something went wrong while canceling parcel"; // fallback
+      err?.data?.message || 
+      err?.error ||       
+      "Something went wrong while canceling parcel"; 
     alert(errorMessage);
   } finally {
     setCancelingId(null);
@@ -73,7 +73,7 @@ const handleCancel = async (id: string) => {
               <th className="p-2 sm:p-3 border-b">Tracking ID</th>
               <th className="p-2 sm:p-3 border-b">Type</th>
               <th className="p-2 sm:p-3 border-b">Weight</th>
-              <th className="p-2 sm:p-3 border-b">Fee</th> {/* ✅ New column */}
+              <th className="p-2 sm:p-3 border-b">Fee</th> 
               <th className="p-2 sm:p-3 border-b">Status</th>
               <th className="p-2 sm:p-3 border-b">Action</th>
             </tr>

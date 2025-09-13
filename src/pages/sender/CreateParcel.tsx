@@ -1,18 +1,18 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Calendar } from "lucide-react";
-import { useCreateParcelMutation } from "../../api"; // import your RTK mutation
-import { toast } from "react-hot-toast"; // optional: for toast notifications
+import { useCreateParcelMutation } from "../../api"; 
+import { toast } from "react-hot-toast"; 
 
 export default function CreateParcel() {
   const navigate = useNavigate();
   const dateInputRef = useRef<HTMLInputElement>(null);
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [createParcel] = useCreateParcelMutation(); // RTK mutation
   const [form, setForm] = useState({
     type: "",
     weight: "",
-    receiverId: "",
+    receiverEmail: "",
     pickupAddress: "",
     deliveryAddress: "",
     deliveryDate: "",
@@ -27,7 +27,7 @@ const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-      setLoading(true);
+    setLoading(true);
     try {
       const res: any = await createParcel(form).unwrap();
       // Show success toast
@@ -38,7 +38,7 @@ const [loading, setLoading] = useState(false);
       setTimeout(() => navigate("/sender/parcels"), 4000);
     } catch (err: any) {
       toast.error(err?.data?.message || "Error creating parcel");
-        setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -88,19 +88,21 @@ const [loading, setLoading] = useState(false);
           />
         </div>
 
-        {/* Receiver ID */}
+        {/* Receiver Email */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Receiver ID
+            Receiver Email
           </label>
           <input
-            name="receiverId"
-            placeholder="Receiver ID"
+            name="receiverEmail"
+            placeholder="Receiver Email"
+            type="email"
             className="border rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-500 outline-none"
             onChange={handleChange}
             required
           />
         </div>
+
 
         {/* Pickup Address */}
         <div>
