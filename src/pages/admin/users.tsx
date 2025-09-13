@@ -5,7 +5,7 @@ import {
   useBlockUserMutation,
   useUnblockUserMutation,
 } from "../../api";
-import { Mail, UserCircle2, Lock, Unlock, ArrowLeft } from "lucide-react";
+import { Mail, UserCircle2, Lock, Unlock, ArrowLeft, Loader2 } from "lucide-react";
 
 export default function AdminUsers() {
   const { data, isLoading, refetch } = useUsersQuery();
@@ -14,14 +14,11 @@ export default function AdminUsers() {
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 5; // adjust as needed
+  const [updatingUserId, setUpdatingUserId] = useState<string | null>(null); 
+  const usersPerPage = 5;
 
-  // Filter out admin users
   const users = data?.data?.filter((u: any) => u.role !== "admin") || [];
-
   const totalPages = Math.ceil(users.length / usersPerPage);
-
-  // Paginated users
   const paginatedUsers = users.slice(
     (currentPage - 1) * usersPerPage,
     currentPage * usersPerPage
@@ -34,9 +31,25 @@ export default function AdminUsers() {
       </p>
     );
 
+  const handleToggle = async (user: any) => {
+    setUpdatingUserId(user._id);
+    try {
+      if (user.isBlocked) {
+        await unblockUser(user._id).unwrap();
+      } else {
+        await blockUser(user._id).unwrap();
+      }
+      refetch();
+    } catch (err) {
+      console.error("Failed to toggle user block:", err);
+    } finally {
+      setUpdatingUserId(null);
+    }
+  };
+
   return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto">
-      {/* 🔙 Back + Title */}
+      {/* Back + Title */}
       <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
         <button
           onClick={() => navigate(-1)}
@@ -52,15 +65,15 @@ export default function AdminUsers() {
         </h2>
       </div>
 
-      {/* ✅ Desktop Table View */}
+      {/* Desktop Table View */}
       <div className="hidden md:block overflow-x-auto border border-gray-200 rounded-lg shadow">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">ID</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Email</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Status</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Block / Unblock</th>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Block</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">
@@ -82,26 +95,19 @@ export default function AdminUsers() {
                   )}
                 </td>
                 <td className="py-3 px-4">
-                  {/* Toggle Switch */}
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       className="sr-only peer"
-                      checked={!user.isBlocked}
-                      onChange={async () => {
-                        try {
-                          if (user.isBlocked) {
-                            await unblockUser(user._id).unwrap();
-                          } else {
-                            await blockUser(user._id).unwrap();
-                          }
-                          refetch();
-                        } catch (err) {
-                          console.error("Failed to toggle user block:", err);
-                        }
-                      }}
+                      checked={user.isBlocked}
+                      disabled={updatingUserId === user._id} // disable while loading
+                      onChange={() => handleToggle(user)}
                     />
-                    <div className="w-12 h-6 bg-gray-300 peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:bg-green-500 transition-all"></div>
+                    <div className="w-12 h-6 bg-gray-300 peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:bg-green-500 transition-all flex items-center justify-center">
+                      {updatingUserId === user._id && (
+                        <Loader2 className="animate-spin h-4 w-4 text-white" />
+                      )}
+                    </div>
                     <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:translate-x-6 transform transition-all"></span>
                   </label>
                 </td>
@@ -111,7 +117,7 @@ export default function AdminUsers() {
         </table>
       </div>
 
-      {/* ✅ Mobile Card View */}
+      {/* Mobile Card View */}
       <div className="space-y-4 md:hidden">
         {paginatedUsers.map((user: any) => (
           <div key={user._id} className="p-4 border rounded-lg shadow-sm bg-white flex flex-col gap-3">
@@ -133,26 +139,19 @@ export default function AdminUsers() {
                 )}
               </span>
 
-              {/* Mobile Toggle */}
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   className="sr-only peer"
-                  checked={!user.isBlocked}
-                  onChange={async () => {
-                    try {
-                      if (user.isBlocked) {
-                        await unblockUser(user._id).unwrap();
-                      } else {
-                        await blockUser(user._id).unwrap();
-                      }
-                      refetch();
-                    } catch (err) {
-                      console.error("Failed to toggle user block:", err);
-                    }
-                  }}
+                  checked={user.isBlocked}
+                  disabled={updatingUserId === user._id}
+                  onChange={() => handleToggle(user)}
                 />
-                <div className="w-12 h-6 bg-gray-300 peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:bg-green-500 transition-all"></div>
+                <div className="w-12 h-6 bg-gray-300 peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:bg-green-500 transition-all flex items-center justify-center">
+                  {updatingUserId === user._id && (
+                    <Loader2 className="animate-spin h-4 w-4 text-white" />
+                  )}
+                </div>
                 <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:translate-x-6 transform transition-all"></span>
               </label>
             </div>
