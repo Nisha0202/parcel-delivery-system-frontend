@@ -25,7 +25,7 @@ export default function Navbar() {
   };
 
 const buttonClasses = (active: boolean) =>
-  `btn w-full border-0 shadow-md font-semibold flex items-center justify-center transition ${
+  `btn border-0 shadow-md font-semibold flex items-center justify-center transition whitespace-normal break-words text-center ${
     active
       ? "bg-gray-600 cursor-not-allowed text-gray-400"
       : "bg-blue-500 hover:bg-blue-600 text-white"
@@ -55,7 +55,7 @@ const buttonClasses = (active: boolean) =>
               <button
                 onClick={handleLogout}
                 disabled={loading}
-                className={buttonClasses(loading)}
+                className={`${buttonClasses(loading)} bg-red-700 hover:bg-red-600`}
               >
                 {loading ? (
                   <>
@@ -114,7 +114,7 @@ const buttonClasses = (active: boolean) =>
             <button
               onClick={handleLogout}
               disabled={loading}
-              className={buttonClasses(loading)}
+              className={`${buttonClasses(loading)} bg-red-700 hover:bg-red-600`}
             >
               {loading ? (
                 <>
