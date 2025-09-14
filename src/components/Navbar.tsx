@@ -33,7 +33,7 @@ const buttonClasses = (active: boolean) =>
 
 
   return (
-    <nav className="bg-transparent text-black shadow-md font-inter sticky top-0 z-50">
+    <nav className="bg-gray-200 text-black shadow-md font-inter sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="text-xl font-bold tracking-wide">
