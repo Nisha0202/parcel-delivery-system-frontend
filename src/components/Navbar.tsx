@@ -45,7 +45,7 @@ const buttonClasses = (active: boolean) =>
               <Link
                 key={link.name}
                 to={link.to}
-                className="hover:text-gray-200 transition-colors"
+                className="hover:text-gray-500 transition-colors"
               >
                 {link.name}
               </Link>

@@ -11,7 +11,7 @@ export function SenderDashboard() {
       <Link to="/sender/create-parcel">🔍 Create Parcel</Link>
       <Link to="/admin/track">🔍 Track Parcel</Link>
     </nav>
-
+    <h2 className="text-xl font-semibold mt-12">Welcome!</h2>
     </div>
   );
 }

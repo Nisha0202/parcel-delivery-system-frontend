@@ -10,7 +10,7 @@ export function ReceiverDashboard() {
       <Link to="/receiver/my-parcels">📦 My Parcels</Link>
       <Link to="/admin/track">🔍 Track Parcel</Link>
     </nav>
-
+    <h2 className="text-xl font-semibold mt-12">Welcome!</h2>
     </div>
   );
 }
