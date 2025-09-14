@@ -1,6 +1,4 @@
-Here’s a properly formatted **README.md** version for your **FastParcel – Parcel Delivery Management Frontend** project:
 
----
 
 # 🚀 FastParcel – Parcel Delivery Management Frontend
 
@@ -20,6 +18,21 @@ It provides **role-based dashboards** for Senders, Receivers, and Admins, allowi
 * **Parcel Tracking** – Track parcels by **tracking ID**.
 * **Responsive UI** – Mobile-friendly design using **Tailwind CSS** + **DaisyUI**.
 * **API Integration** – Powered by [Parcel Delivery API](https://parcel-delivery-api.vercel.app/).
+
+---
+
+## ⚙️ Business Rules & Validations
+
+* Only **sender** can cancel a parcel (before dispatched).
+* Only **receiver** can confirm delivery (when status is "In Transit").
+* Only **receiver** can view parcels sent to them.
+* **Blocked users/parcels** cannot access features.
+* **Admin** can view all users/parcels and use filters.
+* **Admin** can block/unblock users and parcels, update statuses.
+* Only **sender** can view their sent parcels.
+* **Unique tracking ID** for tracking each parcel.
+* Fee calculation: **80 Tk / weight unit**.
+* Fee discount: **50 Tk** if coupon code `"Save50"` is used.
 
 ---
 
@@ -48,29 +61,29 @@ It provides **role-based dashboards** for Senders, Receivers, and Admins, allowi
 
 1. **Clone the repository**
 
-   ```sh
-   git clone https://github.com/yourusername/fastparcel-frontend.git
-   cd fastparcel-frontend
-   ```
+```sh
+git clone https://github.com/Nisha0202/parcel-delivery-system-frontend
+cd parcel-delivery-system-frontend
+```
 
 2. **Install dependencies**
 
-   ```sh
-   npm install
-   # or
-   yarn install
-   ```
+```sh
+npm install
+# or
+yarn install
+```
 
 3. **Start the development server**
 
-   ```sh
-   npm run dev
-   # or
-   yarn dev
-   ```
+```sh
+npm run dev
+# or
+yarn dev
+```
 
 4. **Open in browser**
-   Visit [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal).
+   Visit [http://localhost:5173](http://localhost:5173)
 
 ---
 
@@ -121,8 +134,23 @@ npm run lint     # Run ESLint
 
 ---
 
+## 👩🏻‍💻 Test Accounts
+
+**Admin**
+Email: `admin@example.com`
+Password: `123456`
+
+**Sender**
+Email: `sender@example.com`
+Password: `123456`
+
+**Receiver**
+Email: `receiver@example.com`
+Password: `SecurePass123`
+
+---
+
 ✨ **FastParcel** brings efficiency, scalability, and simplicity to parcel delivery management.
 
 ---
 
-Would you like me to also **add screenshots of the dashboards (Sender, Receiver, Admin)** section in this README so it looks more visually appealing for GitHub?
