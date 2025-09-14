@@ -10,9 +10,9 @@ export function AdminDashboard() {
       <Link to="/admin/users">👥 Users</Link>
       <Link to="/admin/parcels">📦 Parcels</Link>
       <Link to="/admin/track">🔍 Track Parcel</Link>
-      <h2 className="text-xl font-semibold mb-2">Welcome!</h2>
+      
     </nav>
-
+<h2 className="text-xl font-semibold mt-12">Welcome!</h2>
     </div>
   );
 }

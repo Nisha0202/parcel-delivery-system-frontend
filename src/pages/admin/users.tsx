@@ -5,7 +5,9 @@ import {
   useBlockUserMutation,
   useUnblockUserMutation,
 } from "../../api";
-import { Mail, UserCircle2, Lock, Unlock, ArrowLeft, Loader2 } from "lucide-react";
+import { Mail, UserCircle2, Lock, Unlock, ArrowLeft} from "lucide-react";
+import toast from "react-hot-toast";
+
 
 export default function AdminUsers() {
   const { data, isLoading, refetch } = useUsersQuery();
@@ -47,9 +49,10 @@ export default function AdminUsers() {
     }
   };
 
-  return (
+  
+return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto">
-      {/* Back + Title */}
+      {/* 🔙 Back + Title */}
       <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
         <button
           onClick={() => navigate(-1)}
@@ -60,127 +63,121 @@ export default function AdminUsers() {
         </button>
 
         <h2 className="text-2xl font-bold flex items-center gap-2">
-          <UserCircle2 className="text-blue-600" size={28} />
+          <UserCircle2 className="text-blue-600" size={26} />
           Users Management
         </h2>
       </div>
 
-      {/* Desktop Table View */}
-      <div className="hidden md:block overflow-x-auto border border-gray-200 rounded-lg shadow">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th>ID</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Block</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-100">
-            {paginatedUsers.map((user: any) => (
-              <tr key={user._id} className="hover:bg-gray-50 transition">
-                <td className="px-4 py-3 text-xs md:text-sm text-gray-700 font-mono">{user._id}</td>
-                <td className="px-4 py-3 text-sm text-gray-700 flex items-center gap-2">
-                  <Mail size={16} className="text-gray-500" /> {user.email}
-                </td>
-                <td className="px-4 py-3 text-sm font-medium">
-                  {user.isBlocked ? (
-                    <span className="flex items-center gap-1 text-red-600 font-semibold">
-                      <Lock size={16} /> Blocked
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1 text-green-600 font-semibold">
-                      <Unlock size={16} /> Active
-                    </span>
-                  )}
-                </td>
-                <td className="py-3 px-4">
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={user.isBlocked}
-                      disabled={updatingUserId === user._id} // disable while loading
-                      onChange={() => handleToggle(user)}
-                    />
-                    <div className="w-12 h-6 bg-gray-300 peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:bg-green-500 transition-all flex items-center justify-center">
-                      {updatingUserId === user._id && (
-                        <Loader2 className="animate-spin h-4 w-4 text-white" />
+      {/* 👤 Users Table */}
+      {users.length === 0 ? (
+        <p className="text-gray-500 text-center">No users found.</p>
+      ) : (
+        <>
+          <div className="overflow-x-auto rounded-lg shadow border">
+            <table className="w-full text-sm md:text-base">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="hidden md:table-cell p-3 text-left">ID</th>
+                  <th className="p-3 text-left">Email</th>
+                  <th className="p-3 text-left">Status</th>
+                  <th className="p-3 text-left">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedUsers.map((user: any) => (
+                  <tr
+                    key={user._id}
+                    className="border-b hover:bg-gray-50 transition"
+                  >
+                    <td className="hidden md:table-cell p-3 font-mono text-xs md:text-sm text-gray-700">
+                      {user._id}
+                    </td>
+                    <td className="p-3 flex items-center gap-2">
+                      <Mail size={16} className="text-gray-500" />
+                      {user.email}
+                    </td>
+                    <td className="p-3">
+                      {user.isBlocked ? (
+                        <span className="flex items-center gap-1 text-red-600 font-semibold">
+                          <Lock size={16} /> Blocked
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 text-green-600 font-semibold">
+                          <Unlock size={16} /> Active
+                        </span>
                       )}
-                    </div>
-                    <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:translate-x-6 transform transition-all"></span>
-                  </label>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                    </td>
 
-      {/* Mobile Card View */}
-      <div className="space-y-4 md:hidden">
-        {paginatedUsers.map((user: any) => (
-          <div key={user._id} className="p-4 border rounded-lg shadow-sm bg-white flex flex-col gap-3">
-            <div className="flex items-center gap-2 text-gray-700">
-              <Mail size={16} className="text-gray-500" />
-              <span className="text-sm font-medium">{user.email}</span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold flex items-center gap-1">
-                {user.isBlocked ? (
-                  <span className="text-red-600 flex items-center gap-1">
-                    <Lock size={16} /> Blocked
-                  </span>
-                ) : (
-                  <span className="text-green-600 flex items-center gap-1">
-                    <Unlock size={16} /> Active
-                  </span>
-                )}
-              </span>
-
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="sr-only peer"
-                  checked={user.isBlocked}
-                  disabled={updatingUserId === user._id}
-                  onChange={() => handleToggle(user)}
-                />
-                <div className="w-12 h-6 bg-gray-300 peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:bg-green-500 transition-all flex items-center justify-center">
-                  {updatingUserId === user._id && (
-                    <Loader2 className="animate-spin h-4 w-4 text-white" />
-                  )}
-                </div>
-                <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:translate-x-6 transform transition-all"></span>
-              </label>
-            </div>
+                    {/* Actions */}
+                    <td className="p-3 flex gap-2">
+                      {user.isBlocked ? (
+                        <button
+                          onClick={async () => {
+                            try {
+                              await unblockUser(user._id).unwrap();
+                              toast.success("User unblocked!");
+                              refetch();
+                            } catch (err: any) {
+                              toast.error("Failed to unblock user.");
+                            }
+                          }}
+                          className="flex items-center justify-center gap-1 px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 transition text-sm"
+                        >
+                          <Unlock size={16} />
+                          <span className="hidden sm:inline">Unblock</span>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={async () => {
+                            try {
+                              await blockUser(user._id).unwrap();
+                              toast.success("User blocked!");
+                              refetch();
+                            } catch (err: any) {
+                              toast.error("Failed to block user.");
+                            }
+                          }}
+                          className="flex items-center justify-center gap-1 px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-sm"
+                        >
+                          <Lock size={16} />
+                          <span className="hidden sm:inline">Block</span>
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        ))}
-      </div>
 
-      {/* Pagination */}
-      <div className="fixed bottom-0 left-0 w-full flex justify-center mb-4 items-center gap-2 mt-6">
-        <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-          className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
-        >
-          Previous
-        </button>
+          {/* 📄 Pagination Controls */}
+          <div className="fixed bottom-0 left-0 w-full flex justify-center items-center gap-2 p-4 bg-white shadow-md">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+            >
+              Previous
+            </button>
 
-        <span className="px-3 py-1">
-          Page {currentPage} of {totalPages}
-        </span>
+            <span className="px-3 py-1">
+              Page {currentPage} of {totalPages}
+            </span>
 
-        <button
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-          className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
+
+
 }

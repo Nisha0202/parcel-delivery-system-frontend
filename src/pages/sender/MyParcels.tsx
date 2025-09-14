@@ -125,7 +125,7 @@ export default function MyParcels() {
 
           {/* ✅ Pagination Controls */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-6">
+            <div className="fixed bottom-0 left-0 w-full flex justify-center p-4 items-center gap-2 mt-6">
               <button
                 onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                 disabled={currentPage === 1}
