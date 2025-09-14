@@ -5,9 +5,8 @@ import {
   useBlockUserMutation,
   useUnblockUserMutation,
 } from "../../api";
-import { Mail, UserCircle2, Lock, Unlock, ArrowLeft} from "lucide-react";
+import { Mail, UserCircle2, Lock, Unlock, ArrowLeft, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
-
 
 export default function AdminUsers() {
   const { data, isLoading, refetch } = useUsersQuery();
@@ -16,7 +15,7 @@ export default function AdminUsers() {
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [updatingUserId, setUpdatingUserId] = useState<string | null>(null); 
+  const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
   const usersPerPage = 5;
 
   const users = data?.data?.filter((u: any) => u.role !== "admin") || [];
@@ -34,25 +33,26 @@ export default function AdminUsers() {
     );
 
   const handleToggle = async (user: any) => {
-    setUpdatingUserId(user._id);
+    setUpdatingUserId(user._id); // disable this button
     try {
       if (user.isBlocked) {
         await unblockUser(user._id).unwrap();
+        toast.success("User unblocked!");
       } else {
         await blockUser(user._id).unwrap();
+        toast.success("User blocked!");
       }
       refetch();
-    } catch (err) {
-      console.error("Failed to toggle user block:", err);
+    } catch (err: any) {
+      toast.error("Failed to update user status.");
     } finally {
       setUpdatingUserId(null);
     }
   };
 
-  
-return (
+  return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto">
-      {/* 🔙 Back + Title */}
+      {/* Back + Title */}
       <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
         <button
           onClick={() => navigate(-1)}
@@ -68,7 +68,7 @@ return (
         </h2>
       </div>
 
-      {/* 👤 Users Table */}
+      {/* Users Table */}
       {users.length === 0 ? (
         <p className="text-gray-500 text-center">No users found.</p>
       ) : (
@@ -107,42 +107,21 @@ return (
                         </span>
                       )}
                     </td>
-
-                    {/* Actions */}
                     <td className="p-3 flex gap-2">
-                      {user.isBlocked ? (
-                        <button
-                          onClick={async () => {
-                            try {
-                              await unblockUser(user._id).unwrap();
-                              toast.success("User unblocked!");
-                              refetch();
-                            } catch (err: any) {
-                              toast.error("Failed to unblock user.");
-                            }
-                          }}
-                          className="flex items-center justify-center gap-1 px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 transition text-sm"
-                        >
-                          <Unlock size={16} />
-                          <span className="hidden sm:inline">Unblock</span>
-                        </button>
-                      ) : (
-                        <button
-                          onClick={async () => {
-                            try {
-                              await blockUser(user._id).unwrap();
-                              toast.success("User blocked!");
-                              refetch();
-                            } catch (err: any) {
-                              toast.error("Failed to block user.");
-                            }
-                          }}
-                          className="flex items-center justify-center gap-1 px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-sm"
-                        >
-                          <Lock size={16} />
-                          <span className="hidden sm:inline">Block</span>
-                        </button>
-                      )}
+                      <button
+                        onClick={() => handleToggle(user)}
+                        disabled={updatingUserId === user._id}
+                        className={`flex items-center justify-center gap-1 px-3 py-1 rounded-md text-sm transition ${user.isBlocked
+                            ? "bg-green-500 text-white hover:bg-green-600"
+                            : "bg-red-500 text-white hover:bg-red-600"
+                          } ${updatingUserId === user._id ? "opacity-50 cursor-not-allowed" : ""}`}
+                      >
+                        {updatingUserId === user._id && (
+                          <Loader2 className="animate-spin h-4 w-4" />
+                        )}
+                        {user.isBlocked ? <Unlock size={16} /> : <Lock size={16} />}
+                        <span className="hidden sm:inline">{user.isBlocked ? "Unblock" : "Block"}</span>
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -150,7 +129,7 @@ return (
             </table>
           </div>
 
-          {/* 📄 Pagination Controls */}
+          {/* Pagination Controls */}
           <div className="fixed bottom-0 left-0 w-full flex justify-center items-center gap-2 p-4 bg-white shadow-md">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -178,6 +157,4 @@ return (
       )}
     </div>
   );
-
-
 }
