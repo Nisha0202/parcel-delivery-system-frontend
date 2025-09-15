@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import type { UserRole } from "../features/authSlice";
 
 interface ProtectedRouteProps {
-  children: React.ReactNode; // allow multiple elements
+  children: React.ReactNode; 
   role?: UserRole;
 }
 

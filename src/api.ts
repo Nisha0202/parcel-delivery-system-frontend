@@ -13,7 +13,7 @@ export const api = createApi({
   }),
   tagTypes: ["Parcels"], 
   endpoints: (builder) => ({
-    // 🔑 Auth
+    //  Auth
     login: builder.mutation({
       query: (body) => ({ url: "/auth/login", method: "POST", body }),
     }),
@@ -21,7 +21,7 @@ export const api = createApi({
       query: (body) => ({ url: "/auth/register", method: "POST", body }),
     }),
 
-    // 📦 Parcels
+    //  Parcels
     meParcels: builder.query<any, void>({ query: () => "/parcels/me" }),
     receivedParcels: builder.query<any, void>({ query: () => "/parcels/received" }),
     allParcels: builder.query<any, void>({
@@ -49,7 +49,7 @@ export const api = createApi({
       invalidatesTags: ["Parcels"],
     }),
 
-    // 🛠 Admin: Block / Unblock Users
+    //  Admin: Block / Unblock Users
     users: builder.query<any, void>({ query: () => "/users" }),
     blockUser: builder.mutation<void, string>({
       query: (id) => ({ url: `/users/${id}/block`, method: "PATCH" }),
@@ -58,19 +58,19 @@ export const api = createApi({
       query: (id) => ({ url: `/users/${id}/unblock`, method: "PATCH" }),
     }),
 
-    // 🛠 Admin: Manage Parcels
+    // Admin: Manage Parcels
     blockParcel: builder.mutation<void, string>({
       query: (id) => ({ url: `/parcels/${id}/block`, method: "PATCH" }),
       invalidatesTags: ["Parcels"],
     }),
 
-    // 🔍 Tracking
+    //  Tracking
    track: builder.query({
   query: (trackingId) => `parcels/track/${trackingId}`,
 }),
 
 
-    // 📝 Parcel Details + Logs
+    // Parcel Details + Logs
     parcelDetails: builder.query({
       query: (id) => `/parcels/${id}`,
     }),

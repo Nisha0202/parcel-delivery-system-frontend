@@ -5,7 +5,6 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import ParcelTracking from "./pages/ParcelTracking";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/users";
@@ -33,7 +32,7 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/track" element={<ParcelTracking />} />
+     
 
         <Route path="/register" element={<Register />} />
         <Route

@@ -9,7 +9,7 @@ export default function Navbar() {
   const { token } = useSelector((s: RootState) => s.auth);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false); // For button animation
+  const [loading, setLoading] = useState(false); 
 
   const links = [
     { name: "Home", to: "/" },
