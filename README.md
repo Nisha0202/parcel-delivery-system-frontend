@@ -17,7 +17,7 @@ It provides **role-based dashboards** for Senders, Receivers, and Admins, allowi
   * **Admin:** Manage users, block/unblock users, manage parcels, update parcel status, and track parcels.
 * **Parcel Tracking** – Track parcels by **tracking ID**.
 * **Responsive UI** – Mobile-friendly design using **Tailwind CSS** + **DaisyUI**.
-* **API Integration** – Powered by [Parcel Delivery API](https://parcel-delivery-api.vercel.app/).
+* **API Integration** – [Parcel Delivery API](https://parcel-delivery-api.vercel.app/).
 
 ---
 
