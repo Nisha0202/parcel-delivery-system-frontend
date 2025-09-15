@@ -127,7 +127,7 @@ const buttonClasses = (active: boolean) =>
             </button>
           ) : (
             <Link to="/login" onClick={() => setOpen(false)}>
-              <button className={buttonClasses(false)}>Login</button>
+              <button className={`${buttonClasses(false)}} w-full `}>Login</button>
             </Link>
           )}
         </div>

@@ -152,5 +152,4 @@ Password: `SecurePass123`
 
 ✨ **FastParcel** brings efficiency, scalability, and simplicity to parcel delivery management.
 
----
 
